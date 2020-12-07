@@ -6,9 +6,9 @@ pluginManagement {
         mavenCentral()
     }
 }
-rootProject.name = "mvu-program"
+rootProject.name = "mvu-presentation"
 
 enableFeaturePreview("GRADLE_METADATA")
 
-include(":lib")
+include(":presentation")
 

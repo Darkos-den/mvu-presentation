@@ -1,4 +1,5 @@
 import java.util.Date
+import java.util.Properties
 
 plugins {
     id("com.android.library")
@@ -10,7 +11,7 @@ plugins {
 val organization = "darkosinc"
 val repository = "MVU"
 
-val artifactName = "program"
+val artifactName = "presentation"
 val artifactGroup = "com.$organization.$repository"
 val artifactVersion = "0.0.1"
 
@@ -43,7 +44,9 @@ android {
 }
 
 dependencies {
-    implementation("com.darkosinc.MVU:core-android:0.0.5")
+    implementation("com.darkosinc.MVU:core-android:0.0.6")
+    implementation("com.darkosinc.MVU:program-android:0.0.2")
+    implementation("androidx.activity:activity-ktx:1.2.0-beta02")
 }
 
 kotlin {
@@ -61,19 +64,22 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
-                implementation("com.darkosinc.MVU:core:0.0.5")
+                implementation("com.darkosinc.MVU:core:0.0.6")
+                implementation("com.darkosinc.MVU:program:0.0.2")
             }
         }
         val androidMain by getting
         val iosMain by getting
         val iosArm64Main by getting {
             dependencies {
-                implementation("com.darkosinc.MVU:core-iosArm64:0.0.5")
+                implementation("com.darkosinc.MVU:core-iosArm64:0.0.6")
+                implementation("com.darkosinc.MVU:program-iosArm64:0.0.2")
             }
         }
         val iosX64Main by getting {
             dependencies {
-                implementation("com.darkosinc.MVU:core-iosX64:0.0.5")
+                implementation("com.darkosinc.MVU:core-iosX64:0.0.6")
+                implementation("com.darkosinc.MVU:program-iosX64:0.0.2")
             }
         }
     }
@@ -93,9 +99,17 @@ afterEvaluate {
         }
 }
 
+fun getLocalProperties(): Properties {
+    return Properties().apply {
+        load(project.rootProject.file("local.properties").inputStream())
+    }
+}
+
 bintray {
-    user = ""
-    key = ""
+    val p = getLocalProperties()
+
+    user = p.getProperty("bintrayUser")
+    key = p.getProperty("bintrayKey")
     publish = false
 
     pkg.apply {
