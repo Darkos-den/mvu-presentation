@@ -125,6 +125,30 @@ bintray {
     }
 }
 
+publishing {
+    publications {
+        create<MavenPublication>("metadata"){
+            artifactId = artifactName
+            groupId = artifactGroup
+
+            from(components.getByName("kotlin"))
+
+            pom {
+                name.set("presentation")
+                description.set("description")
+                url.set("https://github.com/Darkos-den/mvu-presentation")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+
+            }
+        }
+    }
+}
+
 tasks.getByName<com.jfrog.bintray.gradle.tasks.BintrayUploadTask>("bintrayUpload"){
     doFirst {
         publishing.publications.asMap.keys
