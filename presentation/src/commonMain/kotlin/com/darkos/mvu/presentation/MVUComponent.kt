@@ -32,6 +32,10 @@ abstract class MVUComponent<T : MVUState>(
         _state.value = state
     }
 
+    fun start() {
+        program.start()
+    }
+
     fun clear() {
         program.clear()
     }

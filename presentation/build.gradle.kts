@@ -25,6 +25,7 @@ repositories {
     jcenter()
     mavenCentral()
     maven(url = "https://dl.bintray.com/darkosinc/MVU")
+    maven(url = "https://dl.bintray.com/kodein-framework/Kodein-DI")
 }
 
 android {
@@ -47,6 +48,8 @@ dependencies {
     implementation("com.darkosinc.MVU:core-android:0.0.6")
     implementation("com.darkosinc.MVU:program-android:0.0.2")
     implementation("androidx.activity:activity-ktx:1.2.0-beta02")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.2")
+    implementation("org.kodein.di:kodein-di-framework-android-x:7.1.0")
 }
 
 kotlin {
@@ -66,6 +69,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
                 implementation("com.darkosinc.MVU:core:0.0.6")
                 implementation("com.darkosinc.MVU:program:0.0.2")
+                implementation("org.kodein.di:kodein-di:7.1.0")
             }
         }
         val androidMain by getting
@@ -125,29 +129,29 @@ bintray {
     }
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("metadata"){
-            artifactId = artifactName
-            groupId = artifactGroup
-
-            from(components.getByName("kotlin"))
-
-            pom {
-                name.set("presentation")
-                description.set("description")
-                url.set("https://github.com/Darkos-den/mvu-presentation")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-
-            }
-        }
-    }
-}
+//publishing {
+//    publications {
+//        create<MavenPublication>("metadata"){
+//            artifactId = artifactName
+//            groupId = artifactGroup
+//
+//            from(components.getByName("kotlin"))
+//
+//            pom {
+//                name.set("presentation")
+//                description.set("description")
+//                url.set("https://github.com/Darkos-den/mvu-presentation")
+//                licenses {
+//                    license {
+//                        name.set("The Apache License, Version 2.0")
+//                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+//                    }
+//                }
+//
+//            }
+//        }
+//    }
+//}
 
 tasks.getByName<com.jfrog.bintray.gradle.tasks.BintrayUploadTask>("bintrayUpload"){
     doFirst {
@@ -157,6 +161,12 @@ tasks.getByName<com.jfrog.bintray.gradle.tasks.BintrayUploadTask>("bintrayUpload
             .let {
                 setPublications(*it)
             }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class.java) {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
