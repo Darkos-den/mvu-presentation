@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.darkos.mvu.model.MVUState
 import kotlinx.coroutines.flow.StateFlow
 
-class BaseViewModel<T : MVUState>(
-    private val component: MVUComponent<T>
+class BaseViewModel<C : MVUComponent<T>, T : MVUState>(
+    val component: C
 ) : ViewModel() {
 
     val state: StateFlow<T>
